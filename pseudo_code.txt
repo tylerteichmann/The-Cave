@@ -1,0 +1,33 @@
+"""
+Program				P1_Teichmann.py
+Author(s)			Tyler Teichmann
+Data Last Updated		Jan 30, 2024
+
+Problem Statement:
+	Move the Hero through the Cave, discovering the environment (mapping the Walls as you go. Avoiding the Pit and Monster while trying to find the Treasure.
+
+Customer Requirements:
+- The Cave (20x20 squares) is generated randomly (Hero, Walls, Pit, Monster, and Treasure)
+- The Hero has a Flashlight that shines one (1) square in all directions (N, S, E, and W)
+- The Hero has a spear that can be trhown once in one(1) direction for two(2) squares
+- Attacking with the Spear wil Kill the Monster (if in range)
+- The Monster will Kill the Hero (if one(1) square away)
+- The Pit will Kill the Hero (if they are both in the same square)
+- The Hero hears the Wind coming from the Pit (if one(1) square away... can not tell the direction)
+- The Hero hears the Snarling from the Monster (if two(2) squares away... can tell the direction)
+- Finding the Treasure will win the game (if the Hero is in the same square)
+
+Requirements Analysis:
+- The cave will need to represent the cave object with a complex data structure (such as a two dimentsional grid each "square" must contain information about that "square")
+- the solution will require a user interation at the begining of each turn.
+- The results of turn need to be stored/updated in the cave data structure as well as some "overall game data structure"
+
+Algorithm Design / Pseudocode
+
+Generate a cave with 400 tiles (20x20) with a value of Hero, Wall, Pit, Monster, or Treasure)
+	Hero limit 1 Cannot have value [0][x], [19][x], [y][0], [y][19]
+	Monster limit 1 Cannot have value [0][x], [19][x], [y][0], [y][19]
+	Treasure limit 1 Cannot have value [0][x], [19][x], [y][0], [y][19]
+	Pit limit 1 Cannot have value [0][x], [19][x], [y][0], [y][19]
+
+Display Hero location 
