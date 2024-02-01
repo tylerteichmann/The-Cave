@@ -28,6 +28,7 @@ def import_map():
 
     return the_cave
 
+
 def place_hero(the_cave):
     # identify legal tiles
     empty_tiles = list()
@@ -36,12 +37,38 @@ def place_hero(the_cave):
             if tile == 'E':
                 empty_tiles.append((x, y))
 
+    # remove buffer tiles
+    for x, row in enumerate(the_cave):
+        for y, tile in enumerate(row):
+            if tile == 'P' or tile == 'T':
+                for i in range(2):
+                    for j in range(2):
+                        if (x + i, y + j) in empty_tiles:
+                            empty_tiles.remove((x + i, y + j))
+                        if (x + i, y - j) in empty_tiles:
+                            empty_tiles.remove((x + i, y - j))
+                        if (x - i, y + j) in empty_tiles:
+                            empty_tiles.remove((x - i, y + j))
+                        if (x - i, y - j) in empty_tiles:
+                            empty_tiles.remove((x - i, y - j))
+            elif tile == 'M':
+                for i in range(3):
+                    for j in range(3):
+                        if (x + i, y + j) in empty_tiles:
+                            empty_tiles.remove((x + i, y + j))
+                        if (x + i, y - j) in empty_tiles:
+                            empty_tiles.remove((x + i, y - j))
+                        if (x - i, y + j) in empty_tiles:
+                            empty_tiles.remove((x - i, y + j))
+                        if (x - i, y - j) in empty_tiles:
+                            empty_tiles.remove((x - i, y - j))
+
     # # Place the hero inside the cave
     for i in range(1):
         location = random.choice(empty_tiles)
-        the_cave[location[1]][location[0]] = 'H'
+        the_cave[location[0]][location[1]] = 'H'
     
-    coordinates = location[0] + 1, len(the_cave) - location[1]
+    coordinates = location[1] + 1, len(the_cave) - location[0]
 
     return coordinates
 
@@ -49,9 +76,9 @@ def place_hero(the_cave):
 def export_map(the_cave):
     with open("TheCaveUpdated.txt", "w") as updated_map:
         for line in the_cave:
-            for tile in line:
-                updated_map.write(str(tile) + " ")
-            updated_map.write("\n")
+            updated_map.write(f"{" ".join(line)}\n")
+    
+    return
 
 
 if __name__ == '__main__':
