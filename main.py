@@ -109,8 +109,10 @@ def spwan_hero(map, the_cave):
     # # Place the hero inside the cave
     coordinates = random.choice(empty_tiles)
     row = 20 - coordinates[1]
-    col = coordinates[0] - 1    
+    col = coordinates[0] - 1
+    
     the_cave[row][col] = classes.Hero(row, col, len(the_cave))
+
     map.update_map(the_cave)
 
     return the_cave[row][col].coordinates
