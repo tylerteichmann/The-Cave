@@ -48,3 +48,27 @@ class Hero(tile):
 
     def move(direction):
         pass
+
+class map:
+    def __init__(self, map_file):
+        self.grid = list()
+        self.import_map(map_file)
+
+    def import_map(self, map_file):
+        with open(map_file, "r") as new_map:
+            for line in new_map:
+                line = line.replace(" ", "")
+                line = line.replace("\n", "")
+                self.grid.append(list(line))
+
+    def update_map(self, world):
+
+
+    def export_map(self):
+        with open("current_map.txt", "w") as updated_map:
+            for line in self.grid:
+                updated_map.write(f"{" ".join(line)}\n")
+
+
+class world:
+    def __init__
