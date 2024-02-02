@@ -34,7 +34,6 @@ def start():
     coordinates = spwan_hero(current_map, the_cave)
     print(coordinates)
     
-    current_map.export_map()
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
     action = input().strip().lower()
 
@@ -53,7 +52,6 @@ def start():
     #         export_map(current_map)
         
         # current_map = update_map(current_map, the_cave)
-        current_map.export_map()
         action = input().strip().lower()
 
     return
@@ -79,6 +77,8 @@ def create_cave(map):
                 new_row.append(classes.Monster(r, c, len(row)))
         
         the_cave.append(new_row)
+
+    map.update_map(the_cave)
 
     return the_cave
 
@@ -111,9 +111,7 @@ def spwan_hero(map, the_cave):
     row = 20 - coordinates[1]
     col = coordinates[0] - 1    
     the_cave[row][col] = classes.Hero(row, col, len(the_cave))
-
-    #update the map
-    map.grid[row][col] = 'H'
+    map.update_map(the_cave)
 
     return the_cave[row][col].coordinates
 
