@@ -1,10 +1,12 @@
+import random
+
 class tile:
-    def __init__(self, row, column, length):
+    def __init__(self, row=1, column=1, length=20):
         self.empty = True
         self.column = column
-        self.x_coordinate = column + 1
+        self.x_coordinate = self.column + 1
         self.row = row
-        self.y_coordinate = length - row
+        self.y_coordinate = length - self.row
         self.coordinates = (self.x_coordinate, self.y_coordinate)
         self.spawn_buffer = 0
         self.map_symbol = 'E'
@@ -41,27 +43,57 @@ class Monster(tile):
         self.map_symbol = 'M'
 
 class Hero(tile):
-    def __init__(self, row, column, length):
-        tile.__init__(self, row, column, length)
+    def __init__(self, world):
+        tile.__init__(self)
         self.empty = False
         self.map_symbol = 'H'
+        self.spawn(world)
 
-    def look():
+    def look(self):
         pass
 
-    def hear():
+    def hear(self):
         pass
 
-    def attack(direction):
+    def attack(self, direction):
         pass
 
-    def move(direction):
-        if direction == "North":
-            the_cave[self.row + 1][self.column] = Hero(self.row + 1, self.column, len(the_cave))
+    def move(self, direction):
+        # if direction == "North":
+        #     the_cave[self.row + 1][self.column] = Hero(self.row + 1, self.column, len(the_cave))
         pass
 
-    def respawn():
-        pass
+    def spawn(self, world):
+        world.board[self.row][self.column] = tile(self.row, self.column)
+        
+        empty_tiles = list()
+        for row in world.board:
+            for square in row:
+                if square.empty:
+                    empty_tiles.append(square.coordinates)
+
+        # remove tiles that have a buffer
+        for row in world.board:
+            for square in row:
+                if square.spawn_buffer > 0:
+                    for i in range(square.spawn_buffer):
+                        for j in range(square.spawn_buffer):
+                            if (square.x_coordinate + i, square.y_coordinate + j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate + i, square.y_coordinate + j))
+                            if (square.x_coordinate + i, square.y_coordinate - j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate + i, square.y_coordinate - j))
+                            if (square.x_coordinate - i, square.y_coordinate + j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate - i, square.y_coordinate + j))
+                            if (square.x_coordinate - i, square.y_coordinate - j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate - i, square.y_coordinate - j))
+
+        # # Place the hero inside the cave
+        coordinates = random.choice(empty_tiles)
+        self.row = 20 - coordinates[1]
+        self.column = coordinates[0] - 1
+        
+        world.board[self.row][self.column] = self
+        
 
 
 class map:
@@ -78,7 +110,7 @@ class map:
 
     def update_map(self, world):
 
-        for row in world:
+        for row in world.board:
             for tile in row:
                 self.grid[tile.row][tile.column] = tile.map_symbol
         
@@ -90,5 +122,28 @@ class map:
                 updated_map.write(f"{" ".join(line)}\n")
 
 
-# class world:
-#     def __init__
+class world:
+    def __init__(self, map):
+        self.board = list()
+        self.create_world(map)
+
+    def create_world(self, map):
+
+        for r, row in enumerate(map.grid):
+            new_row = list()
+
+            for c, square in enumerate(row):
+                if square == 'E':
+                    new_row.append(tile(r, c, len(row)))
+                elif square == 'W':
+                    new_row.append(Wall(r, c, len(row)))
+                elif square == 'P':
+                    new_row.append(Pit(r, c, len(row)))
+                elif square == 'T':             
+                    new_row.append(Treasure(r, c, len(row)))
+                elif square == 'M':
+                    new_row.append(Monster(r, c, len(row)))
+            
+            self.board.append(new_row)
+
+        map.update_map(self)
