@@ -2,27 +2,24 @@ import random
 import classes
 
 def main():
+    while True:
 
-    with open("title_screen.txt", "r") as title:
-        for line in title:
-            print(line, end="")
-        print()
+        with open("title_screen.txt", "r") as title:
+            for line in title:
+                print(line, end="")
+            print()
 
-    option = input().strip().lower()
+        option = input().strip().lower()
 
-    while option != "exit":
         if option == "start":
             start()
         elif option == "contorls":
-            # show Control screen
+            # TODO show Control screen
             pass
         elif option == "exit":
             break
 
-        option = input().strip().lower()
-
-    
-    return 1
+    return 0
 
 
 def start():
@@ -35,15 +32,15 @@ def start():
     current_map.update_map(the_cave)
 
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
-    action = input().strip().lower()
 
-    while action != "exit":
+    while True:
+
+        action = input().strip().lower()
         if action == "respawn":
-            my_hero.spawn(the_cave)
+            my_hero = classes.Hero(the_cave)
             current_map.update_map(the_cave)
-
-    #     if action == "look":
-    #         classes.hero.look()
+        elif action == "look":
+            my_hero.look(the_cave)
     #     elif action == "hear":
     #         classes.hero.hear()
     #     elif action == "attack":
@@ -51,44 +48,10 @@ def start():
     #     elif action == "move":
     #         classes.hero.move(action[1])
     #         export_map(current_map)
-        
-        # current_map = update_map(current_map, the_cave)
-        action = input().strip().lower()
+        elif action == "exit":
+            break
 
-    return
-
-
-# def spwan_hero(map, the_cave):
-#     # identify legal tiles
-#     empty_tiles = list()
-#     for row in the_cave.board:
-#         for tile in row:
-#             if tile.empty:
-#                 empty_tiles.append(tile.coordinates)
-
-#     # remove tiles that have a buffer
-#     for row in the_cave.board:
-#         for tile in row:
-#             if tile.spawn_buffer > 0:
-#                 for i in range(tile.spawn_buffer):
-#                     for j in range(tile.spawn_buffer):
-#                         if (tile.x_coordinate + i, tile.y_coordinate + j) in empty_tiles:
-#                             empty_tiles.remove((tile.x_coordinate + i, tile.y_coordinate + j))
-#                         if (tile.x_coordinate + i, tile.y_coordinate - j) in empty_tiles:
-#                             empty_tiles.remove((tile.x_coordinate + i, tile.y_coordinate - j))
-#                         if (tile.x_coordinate - i, tile.y_coordinate + j) in empty_tiles:
-#                             empty_tiles.remove((tile.x_coordinate - i, tile.y_coordinate + j))
-#                         if (tile.x_coordinate - i, tile.y_coordinate - j) in empty_tiles:
-#                             empty_tiles.remove((tile.x_coordinate - i, tile.y_coordinate - j))
-
-#     # # Place the hero inside the cave
-#     coordinates = random.choice(empty_tiles)
-#     row = 20 - coordinates[1]
-#     col = coordinates[0] - 1
-    
-#     the_cave.board[row][col] = classes.Hero(row, col, len(the_cave.board))
-
-#     map.update_map(the_cave)
+    return 0
 
 
 if __name__ == '__main__':

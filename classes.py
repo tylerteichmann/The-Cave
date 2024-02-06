@@ -48,19 +48,36 @@ class Hero(tile):
         self.empty = False
         self.map_symbol = 'H'
         self.spawn(world)
+        self.surroundings = {
+            "North":world.board[self.row + 1][self.column].map_symbol,
+            "South":world.board[self.row - 1][self.column].map_symbol,
+            "East":world.board[self.row][self.column + 1].map_symbol,
+            "West":world.board[self.row][self.column - 1].map_symbol
+        }
 
-    def look(self):
-        pass
+    def look(self, world):
+        for direction in self.surroundings:
+            print(f"To your {direction} you see", end='')
+            if self.surroundings[direction] == 'T':
+                print("the Treasure")
+            elif self.surroundings[direction] == 'P':
+                print("a deep pit. You try to look in but see only darkness")
+            elif self.surroundings[direction] == 'M':
+                print("the Monster")
+            elif self.surroundings[direction] == 'W':
+                print("a massive wall that seems to extend to the heavens")
+            else:
+                print("nothing of signifigance")           
 
     def hear(self):
         pass
-
-    def attack(self, direction):
-        pass
-
+    
     def move(self, direction):
         # if direction == "North":
         #     the_cave[self.row + 1][self.column] = Hero(self.row + 1, self.column, len(the_cave))
+        pass
+
+    def attack(self, direction):
         pass
 
     def spawn(self, world):
@@ -127,6 +144,7 @@ class world:
         self.board = list()
         self.create_world(map)
 
+    # I think i can merge this with my __init__ unless i make it a reset function.
     def create_world(self, map):
 
         for r, row in enumerate(map.grid):
