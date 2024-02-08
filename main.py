@@ -35,21 +35,31 @@ def start():
 
     while True:
 
-        action = input().strip().lower()
-        if action == "respawn":
-            my_hero = classes.Hero(the_cave)
+        action = input().strip().lower().split()
+        if action == []:
+            continue
+
+        if action[0] == "respawn":
+            my_hero.spawn(the_cave)
             current_map.update_map(the_cave)
-        elif action == "look":
-            my_hero.look(the_cave)
-    #     elif action == "hear":
-    #         classes.hero.hear()
-    #     elif action == "attack":
+        elif action[0] == "look":
+            my_hero.look()
+        elif action[0] == "hear":
+            my_hero.hear()
+    #     elif action[0] == "attack":
     #         classes.hero.attack(action[1])
-    #     elif action == "move":
-    #         classes.hero.move(action[1])
-    #         export_map(current_map)
-        elif action == "exit":
+        elif action[0] == "move":
+            if action[1] in my_hero.surroundings:
+                my_hero.move(action[1], the_cave)
+                current_map.update_map(the_cave)
+            else:
+                print("Nothing happens.")
+        elif action[0] == "exit":
+            the_cave.board[my_hero.row][my_hero.column] = classes.tile(my_hero.row, my_hero.column)
+            current_map.update_map(the_cave)
             break
+        else:
+            print("Nohting happens.")
 
     return 0
 

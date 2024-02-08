@@ -48,34 +48,84 @@ class Hero(tile):
         self.empty = False
         self.map_symbol = 'H'
         self.spawn(world)
-        self.surroundings = {
-            "North":world.board[self.row + 1][self.column].map_symbol,
-            "South":world.board[self.row - 1][self.column].map_symbol,
-            "East":world.board[self.row][self.column + 1].map_symbol,
-            "West":world.board[self.row][self.column - 1].map_symbol
-        }
 
-    def look(self, world):
+    def look(self):
+        print(f"To your shine your flashlight")
         for direction in self.surroundings:
-            print(f"To your {direction} you see", end='')
             if self.surroundings[direction] == 'T':
-                print("the Treasure")
+                print(f"To the {direction} you see the Treasure")
             elif self.surroundings[direction] == 'P':
-                print("a deep pit. You try to look in but see only darkness")
+                print(f"To the {direction} you see a deep pit. You try to look in but see only darkness")
             elif self.surroundings[direction] == 'M':
-                print("the Monster")
+                print(f"To the {direction} you see the Monster")
             elif self.surroundings[direction] == 'W':
-                print("a massive wall that seems to extend to the heavens")
+                print(f"To the {direction} you see a massive wall that seems to extend to the heavens")
             else:
-                print("nothing of signifigance")           
+                print(f"To the {direction} you see nothing of signifigance")           
 
     def hear(self):
-        pass
+        nothing = True
+        for direction in self.surroundings:
+            if self.surroundings[direction] == 'T':
+                print("You can hear a clinking of coins, a great treasure is nearby.")
+                nothing = False
+            elif self.surroundings[direction] == 'P':
+                print("You can hear a faint wind, perhapse indicateing some deep void.")
+                nothing = False
+            elif self.surroundings[direction] == 'M':
+                print("You can hear a clinking of coins, a great treasure is nearby.")
+                nothing = False
+        if nothing:
+            print("You can't seem to hear anything") 
     
-    def move(self, direction):
-        # if direction == "North":
-        #     the_cave[self.row + 1][self.column] = Hero(self.row + 1, self.column, len(the_cave))
-        pass
+    def move(self, direction, world):
+        # check if moving to a valid tile
+        if self.surroundings[direction] != 'W':
+            if self.surroundings[direction] == 'T':
+                print("You Win!")
+            elif self.surroundings[direction] == 'P':
+                print("Game Over...")
+            elif self.surroundings[direction] == 'M':
+                print("Game Over...")
+            else:
+                # replace the old pointer with "E"
+                world.board[self.row][self.column] = tile(self.row, self.column)
+                # Update hero's location
+                if direction == "north":
+                    self.row -= 1
+                elif direction == "northeast":
+                    self.row -= 1
+                    self.column += 1
+                elif direction == "east":
+                    self.column += 1
+                elif direction == "southeast":
+                    self.row += 1
+                    self.column += 1
+                elif direction == "south":
+                    self.row += 1
+                elif direction == "southwest":
+                    self.row += 1
+                    self.column -= 1
+                elif direction == "west":
+                    self.column -= 1
+                elif direction == "northwest":
+                    self.row -= 1
+                    self.column += 1
+                # change the world pointer location
+                world.board[self.row][self.column] = self
+                # update hero surroundings
+                self.surroundings = {
+                    "north":        world.board[self.row - 1]   [self.column].map_symbol,
+                    "northeast":    world.board[self.row - 1]   [self.column + 1].map_symbol,
+                    "east":         world.board[self.row]       [self.column + 1].map_symbol,
+                    "southeast":    world.board[self.row + 1]   [self.column + 1].map_symbol,
+                    "south":        world.board[self.row + 1]   [self.column].map_symbol,
+                    "southwest":    world.board[self.row + 1]   [self.column - 1].map_symbol,
+                    "west":         world.board[self.row]       [self.column - 1].map_symbol,
+                    "northwest":    world.board[self.row - 1]   [self.column - 1].map_symbol
+                }
+        else:
+            print(f"The way is blocked...")
 
     def attack(self, direction):
         pass
@@ -104,12 +154,25 @@ class Hero(tile):
                             if (square.x_coordinate - i, square.y_coordinate - j) in empty_tiles:
                                 empty_tiles.remove((square.x_coordinate - i, square.y_coordinate - j))
 
-        # # Place the hero inside the cave
+        # Place the hero inside the cave
         coordinates = random.choice(empty_tiles)
         self.row = 20 - coordinates[1]
         self.column = coordinates[0] - 1
         
+        # Update the world with the hero
         world.board[self.row][self.column] = self
+
+        # Set Surroundings
+        self.surroundings = {
+            "north":        world.board[self.row + 1]   [self.column].map_symbol,
+            "northeast":    world.board[self.row + 1]   [self.column + 1].map_symbol,
+            "east":         world.board[self.row]       [self.column + 1].map_symbol,
+            "southeast":    world.board[self.row - 1]   [self.column + 1].map_symbol,
+            "south":        world.board[self.row - 1]   [self.column].map_symbol,
+            "southwest":    world.board[self.row - 1]   [self.column - 1].map_symbol,
+            "west":         world.board[self.row]       [self.column - 1].map_symbol,
+            "northwest":    world.board[self.row + 1]   [self.column - 1].map_symbol
+        }
         
 
 
