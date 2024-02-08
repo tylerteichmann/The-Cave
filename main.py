@@ -41,17 +41,15 @@ def start():
 
         if action[0] == "respawn":
             my_hero.spawn(the_cave)
-            current_map.update_map(the_cave)
         elif action[0] == "look":
-            my_hero.look()
+            my_hero.look(the_cave)
         elif action[0] == "hear":
-            my_hero.hear()
+            my_hero.hear(the_cave)
     #     elif action[0] == "attack":
     #         classes.hero.attack(action[1])
         elif action[0] == "move":
-            if action[1] in my_hero.surroundings:
-                my_hero.move(action[1], the_cave)
-                current_map.update_map(the_cave)
+            if action[1] in my_hero.directions:
+                my_hero.move(my_hero.directions[action[1]], the_cave)
             else:
                 print("Nothing happens.")
         elif action[0] == "exit":
@@ -60,6 +58,8 @@ def start():
             break
         else:
             print("Nohting happens.")
+        
+        current_map.update_map(the_cave)
 
     return 0
 
