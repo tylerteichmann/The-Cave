@@ -14,8 +14,12 @@ def main():
         if option == "start":
             start()
         elif option == "contorls":
-            # TODO show Control screen
-            pass
+
+            with open("controls.txt", "r") as title:
+                for line in title:
+                    print(line, end="")
+                print()
+
         elif option == "exit":
             break
 

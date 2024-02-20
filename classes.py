@@ -54,6 +54,7 @@ class Hero(tile):
         self.map_symbol = 'H'
         self.hearing_range = 2
         self.sight = 1
+        self.attack_range = 2
         self.movement = 1
         self.directions = {
             "north":(-1, 0),

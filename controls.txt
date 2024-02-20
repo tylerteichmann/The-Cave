@@ -1,0 +1,10 @@
+----------------------THE CAVE---------------------------
+
+'THE CAVE' IS A TEXT BASED ADVENTURE RPG TYPE AN ACTION
+AND TRY TO FIND THE Treasure
+MOVE - NORTH, EAST, WEST, SOUTH
+LOOK
+HEAR
+ATTACK - NORTH, EAST, WEST, SOUTH
+
+---------------------------------------------------------
