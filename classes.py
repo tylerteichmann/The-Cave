@@ -10,48 +10,62 @@ class tile:
         self.coordinates = (self.x_coordinate, self.y_coordinate)
         self.spawn_buffer = 0
         # I think i can use class instead of the symbol
-        self.map_symbol = 'E'
+        self.map_symbol = ' '
+
+    def kill(self, world):
+        world.board[self.row][self.column] = tile(self.row, self.column)
+       
 
     def __str__(self):
         return f"{self.location}"
 
 
 class Wall(tile):
+    map_symbol = '\u25A0'
+
     def __init__(self, row, column, length):
         tile.__init__(self, row, column, length)
         self.empty = False
-        self.map_symbol = 'W'
+        self.map_symbol = Wall.map_symbol
 
 
 class Treasure(tile):
+    map_symbol = 'T'
+
     def __init__(self, row, column, length):
         tile.__init__(self, row, column, length)
         self.empty = False
         self.spawn_buffer = 2
-        self.map_symbol = 'T'
+        self.map_symbol = Treasure.map_symbol
 
 
 class Pit(tile):
+    map_symbol = '\u25CB'
+
     def __init__(self, row, column, length):
         tile.__init__(self, row, column, length)
         self.empty = False
         self.spawn_buffer = 2
-        self.map_symbol = 'P'
+        self.map_symbol = Pit.map_symbol
 
 
 class Monster(tile):
+    map_symbol = '\u25C6'
+
     def __init__(self, row, column, length):
         tile.__init__(self, row, column, length)
         self.empty = False
         self.spawn_buffer = 3
-        self.map_symbol = 'M'
+        self.map_symbol = Monster.map_symbol
 
 
 class Hero(tile):
+    map_symbol = 'H'
+
     def __init__(self, world):
         tile.__init__(self)
         self.empty = False
-        self.map_symbol = 'H'
+        self.map_symbol = Hero.map_symbol
         self.hearing_range = 2
         self.sight = 1
         self.attack_range = 2
@@ -82,13 +96,13 @@ class Hero(tile):
                     if self.directions[key] == (y, x):
                         direction = key
 
-                if symbol == 'T':
+                if symbol == Treasure.map_symbol:
                     print(f"To the {direction} you see the Treasure.")
-                elif symbol == 'P':
+                elif symbol == Pit.map_symbol:
                     print(f"To the {direction} you see a deep pit. You try to look in but see only darkness")
-                elif symbol == 'M':
+                elif symbol == Monster.map_symbol:
                     print(f"To the {direction} you see the Monster")
-                elif symbol == 'W':
+                elif symbol == Wall.map_symbol:
                     print(f"To the {direction} you see a massive wall that seems to extend to the heavens")
                 else:
                     print(f"To the {direction} you see nothing of signifigance")
@@ -99,13 +113,13 @@ class Hero(tile):
         for y in range(-self.hearing_range, self.hearing_range + 1):
             for x in range(-self.hearing_range, self.hearing_range + 1):
                 symbol = world.board[self.row + y][self.column + x].map_symbol
-                if symbol == 'T':
+                if symbol == Treasure.map_symbol:
                     print(f"You can hear a clinking of coins, a great treasure is nearby.")
                     nothing = False
-                elif symbol == 'P':
+                elif symbol == Pit.map_symbol:
                     print(f"You can hear a faint wind, perhapse indicateing some deep void.")
                     nothing = False
-                elif symbol == 'M':
+                elif symbol == Monster.map_symbol:
                     print(f"You hear a Snarling noise, but can't tell where its coming from...")
                     nothing = False
         if nothing:
@@ -115,7 +129,7 @@ class Hero(tile):
     def move(self, direction, world):
         # # check if moving to a valid tile
         symbol = world.board[self.row + direction[0]][self.column + direction[1]].map_symbol
-        if symbol != 'W':
+        if symbol !=  Wall.map_symbol:
             if symbol == 'T':
                 print(f"You Win!")
             elif symbol == 'P' or symbol == 'M':
@@ -132,9 +146,13 @@ class Hero(tile):
             print(f"The way is blocked...")
 
 
-    def attack(self, direction):
-        pass
-
+    def attack(self, direction, world):
+        if world.board[self.row + direction[0]][self.column + direction[1]].map_symbol == Monster.map_symbol:
+            # Kill Monster Function
+            print("The monster has been slain")
+            world.board[self.row + direction[0]][self.column + direction[1]].kill(world)
+        else:
+            print("Your spear falls to the ground, forever lost in the darkness...")
 
     def spawn(self, world):
         world.board[self.row][self.column] = tile(self.row, self.column)
@@ -190,7 +208,7 @@ class map:
         self.export_map()
 
     def export_map(self):
-        with open("current_map.txt", "w") as updated_map:
+        with open("current_map.txt", "w", encoding="UTF-8") as updated_map:
             for line in self.grid:
                 updated_map.write(f"{" ".join(line)}\n")
 

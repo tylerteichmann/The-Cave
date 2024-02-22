@@ -13,12 +13,15 @@ def main():
 
         if option == "start":
             start()
-        elif option == "contorls":
+
+        elif option == "controls":
 
             with open("controls.txt", "r") as title:
                 for line in title:
                     print(line, end="")
                 print()
+
+            option = input().strip().lower()
 
         elif option == "exit":
             break
@@ -45,21 +48,30 @@ def start():
 
         if action[0] == "respawn":
             my_hero.spawn(the_cave)
+
         elif action[0] == "look":
             my_hero.look(the_cave)
+
         elif action[0] == "hear":
             my_hero.hear(the_cave)
-    #     elif action[0] == "attack":
-    #         classes.hero.attack(action[1])
+
+        elif action[0] == "attack":
+            if action[1] in my_hero.directions:
+                my_hero.attack(my_hero.directions[action[1]], the_cave)
+            else:
+                print("Nothing happens.")
+
         elif action[0] == "move":
             if action[1] in my_hero.directions:
                 my_hero.move(my_hero.directions[action[1]], the_cave)
             else:
                 print("Nothing happens.")
+
         elif action[0] == "exit":
             the_cave.board[my_hero.row][my_hero.column] = classes.tile(my_hero.row, my_hero.column)
             current_map.update_map(the_cave)
             break
+        
         else:
             print("Nohting happens.")
         
