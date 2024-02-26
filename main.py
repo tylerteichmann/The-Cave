@@ -1,33 +1,43 @@
-import random
 import classes
 
 def main():
+    start_menu()
+
+def start_menu():
+
+    with open("title_screen.txt", "r", encoding="utf-8") as screen:
+        for line in screen:
+            print(line, end="")
+        print()
+
     while True:
-
-        with open("title_screen.txt", "r") as title:
-            for line in title:
-                print(line, end="")
-            print()
-
         option = input().strip().lower()
 
         if option == "start":
             start()
 
         elif option == "controls":
-
-            with open("controls.txt", "r") as title:
-                for line in title:
-                    print(line, end="")
-                print()
-
-            option = input().strip().lower()
+            control_menu()
 
         elif option == "exit":
             break
 
-    return 0
+        else:
+            continue
 
+def control_menu():
+    with open("controls.txt", "r", encoding="utf-8") as screen:
+        for line in screen:
+            print(line, end="")
+        print()
+
+    while True:
+        option = input().strip().lower()
+
+        if option == "exit":
+            return
+        else:
+            continue
 
 def start():
     # Read cave from input and create a 2D map and the virtual cave.
@@ -76,8 +86,6 @@ def start():
             print("Nohting happens.")
         
         current_map.update_map(the_cave)
-
-    return 0
 
 
 if __name__ == '__main__':
