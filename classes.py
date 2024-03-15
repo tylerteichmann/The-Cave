@@ -14,7 +14,6 @@ class tile:
 
     def kill(self, world):
         world.board[self.row][self.column] = tile(self.row, self.column)
-       
 
     def __str__(self):
         return f"{self.location}"

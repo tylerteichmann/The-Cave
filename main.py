@@ -14,7 +14,8 @@ def start_menu():
         option = input().strip().lower()
 
         if option == "start":
-            start()
+            file_name = input("Select Map: ")
+            start(file_name)
 
         elif option == "controls":
             control_menu()
@@ -26,6 +27,7 @@ def start_menu():
             continue
 
 def control_menu():
+
     with open("controls.txt", "r", encoding="utf-8") as screen:
         for line in screen:
             print(line, end="")
@@ -39,9 +41,9 @@ def control_menu():
         else:
             continue
 
-def start():
+def start(file_name):
     # Read cave from input and create a 2D map and the virtual cave.
-    current_map = classes.map("TheCave.txt")
+    current_map = classes.map(file_name)
     the_cave = classes.world(current_map)
 
     # Place the hero and print his location (for sanity, location will go away later)
@@ -49,14 +51,17 @@ def start():
     current_map.update_map(the_cave)
 
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
+    turn_counter = 0
 
     while True:
+        turn_counter += 1
 
         action = input().strip().lower().split()
+
         if action == []:
             continue
 
-        if action[0] == "respawn":
+        elif action[0] == "respawn":
             my_hero.spawn(the_cave)
 
         elif action[0] == "look":
