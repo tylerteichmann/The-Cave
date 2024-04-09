@@ -1,11 +1,16 @@
-import Map
+from classes.map import Map
+from classes.world import World
+from classes.hero import Hero
+from classes.tile import Tile
+
 
 def main():
     start_menu()
 
+
 def start_menu():
 
-    with open("title_screen.txt", "r", encoding="utf-8") as screen:
+    with open("static/title_screen.txt", "r", encoding="utf-8") as screen:
         for line in screen:
             print(line, end="")
         print()
@@ -26,9 +31,10 @@ def start_menu():
         else:
             continue
 
+
 def control_menu():
 
-    with open("controls.txt", "r", encoding="utf-8") as screen:
+    with open("static/controls.txt", "r", encoding="utf-8") as screen:
         for line in screen:
             print(line, end="")
         print()
@@ -41,13 +47,14 @@ def control_menu():
         else:
             continue
 
+
 def start(file_name):
     # Read cave from input and create a 2D map and the virtual cave.
-    current_map = Map.map(file_name)
-    the_cave = Map.world(current_map)
+    current_map = Map(file_name)
+    the_cave = World(current_map)
 
     # Place the hero and print his location (for sanity, location will go away later)
-    my_hero = Map.Hero(the_cave)
+    my_hero = Hero(the_cave)
     current_map.update_map(the_cave)
 
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
@@ -83,12 +90,12 @@ def start(file_name):
                 print("Nothing happens.")
 
         elif action[0] == "exit":
-            the_cave.board[my_hero.row][my_hero.column] = Map.tile(my_hero.row, my_hero.column)
+            the_cave.board[my_hero.row][my_hero.column] = Tile(my_hero.row, my_hero.column)
             current_map.update_map(the_cave)
             break
         
         else:
-            print("Nohting happens.")
+            print("Nothing happens.")
         
         current_map.update_map(the_cave)
 

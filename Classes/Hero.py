@@ -1,12 +1,18 @@
-from Classes.Tile import Tile
+import random
+
+from classes.tile import Tile
+from classes.wall import Wall
+from classes.pit import Pit
+from classes.treasure import Treasure
+from classes.monster import Monster
 
 class Hero(Tile):
-    Map_symbol = 'H'
+    map_symbol = 'H'
 
     def __init__(self, World):
         Tile.__init__(self)
         self.empty = False
-        self.Map_symbol = Hero.Map_symbol
+        self.map_symbol = Hero.map_symbol
         self.hearing_range = 2
         self.sight = 1
         self.attack_range = 2
@@ -31,19 +37,19 @@ class Hero(Tile):
                 if (x, y) == (0, 0):
                     continue
 
-                symbol = World.board[self.row + y][self.column + x].Map_symbol
+                symbol = World.board[self.row + y][self.column + x].map_symbol
 
                 for key in self.directions:
                     if self.directions[key] == (y, x):
                         direction = key
 
-                if symbol == Treasure.Map_symbol:
+                if symbol == Treasure.map_symbol:
                     print(f"To the {direction} you see the Treasure.")
-                elif symbol == Pit.Map_symbol:
+                elif symbol == Pit.map_symbol:
                     print(f"To the {direction} you see a deep pit. You try to look in but see only darkness")
-                elif symbol == Monster.Map_symbol:
+                elif symbol == Monster.map_symbol:
                     print(f"To the {direction} you see the Monster")
-                elif symbol == Wall.Map_symbol:
+                elif symbol == Wall.map_symbol:
                     print(f"To the {direction} you see a massive wall that seems to extend to the heavens")
                 else:
                     print(f"To the {direction} you see nothing of signifigance")
@@ -53,14 +59,14 @@ class Hero(Tile):
         nothing = True
         for y in range(-self.hearing_range, self.hearing_range + 1):
             for x in range(-self.hearing_range, self.hearing_range + 1):
-                symbol = World.board[self.row + y][self.column + x].Map_symbol
-                if symbol == Treasure.Map_symbol:
+                symbol = World.board[self.row + y][self.column + x].map_symbol
+                if symbol == Treasure.map_symbol:
                     print(f"You can hear a clinking of coins, a great treasure is nearby.")
                     nothing = False
-                elif symbol == Pit.Map_symbol:
+                elif symbol == Pit.map_symbol:
                     print(f"You can hear a faint wind, perhapse indicateing some deep void.")
                     nothing = False
-                elif symbol == Monster.Map_symbol:
+                elif symbol == Monster.map_symbol:
                     print(f"You hear a Snarling noise, but can't tell where its coming from...")
                     nothing = False
         if nothing:
@@ -69,8 +75,8 @@ class Hero(Tile):
 
     def move(self, direction, World):
         # # check if moving to a valid Tile
-        symbol = World.board[self.row + direction[0]][self.column + direction[1]].Map_symbol
-        if symbol !=  Wall.Map_symbol:
+        symbol = World.board[self.row + direction[0]][self.column + direction[1]].map_symbol
+        if symbol !=  Wall.map_symbol:
             if symbol == 'T':
                 print(f"You Win!")
             elif symbol == 'P' or symbol == 'M':
@@ -88,7 +94,7 @@ class Hero(Tile):
 
 
     def attack(self, direction, World):
-        if World.board[self.row + direction[0]][self.column + direction[1]].Map_symbol == Monster.Map_symbol:
+        if World.board[self.row + direction[0]][self.column + direction[1]].map_symbol == Monster.map_symbol:
             # Kill Monster Function
             print("The monster has been slain")
             World.board[self.row + direction[0]][self.column + direction[1]].kill(World)
@@ -125,6 +131,4 @@ class Hero(Tile):
         self.column = coordinates[0] - 1
         
         # Update the World with the hero
-        World.board[self.row][self.column] = self        
-
-
+        World.board[self.row][self.column] = self
