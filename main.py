@@ -1,4 +1,4 @@
-import classes
+import Map
 
 def main():
     start_menu()
@@ -43,11 +43,11 @@ def control_menu():
 
 def start(file_name):
     # Read cave from input and create a 2D map and the virtual cave.
-    current_map = classes.map(file_name)
-    the_cave = classes.world(current_map)
+    current_map = Map.map(file_name)
+    the_cave = Map.world(current_map)
 
     # Place the hero and print his location (for sanity, location will go away later)
-    my_hero = classes.Hero(the_cave)
+    my_hero = Map.Hero(the_cave)
     current_map.update_map(the_cave)
 
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
@@ -83,7 +83,7 @@ def start(file_name):
                 print("Nothing happens.")
 
         elif action[0] == "exit":
-            the_cave.board[my_hero.row][my_hero.column] = classes.tile(my_hero.row, my_hero.column)
+            the_cave.board[my_hero.row][my_hero.column] = Map.tile(my_hero.row, my_hero.column)
             current_map.update_map(the_cave)
             break
         
