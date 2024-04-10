@@ -36,13 +36,13 @@ Describe how to install all development dependencies and how to run an automated
 * 0.0.1
     * Work in progress
 
-## Meta
+## Contact Info
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Tyler J. Teichmann – tyler.j.teichmann@gmail.com
 
 Distributed under the XYZ license. See ``LICENSE`` for more information.
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+[https://github.com/yourname/github-link](https://github.com/tylerteichmann/)
 
 ## Contributing
 
