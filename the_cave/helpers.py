@@ -210,7 +210,7 @@ class Map:
     def export_map(self):
         with open("static/current_Map.txt", "w", encoding="UTF-8") as updated_map:
             for line in self.grid:
-                updated_map.write(f"{" ".join(line)}\n")
+                updated_map.write(f"{' '.join(line)}\n")
 
 
 class World:
