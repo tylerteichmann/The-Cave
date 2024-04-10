@@ -1,12 +1,71 @@
 import random
 
-from classes.tile import Tile
-from classes.wall import Wall
-from classes.pit import Pit
-from classes.treasure import Treasure
-from classes.monster import Monster
+
+class Tile:
+
+    def __init__(self, row=1, column=1, length=20):
+        self.empty = True
+        self.column = column
+        self.x_coordinate = self.column + 1
+        self.row = row
+        self.y_coordinate = length - self.row
+        self.coordinates = (self.x_coordinate, self.y_coordinate)
+        self.spawn_buffer = 0
+        # I think i can use class instead of the symbol
+        self.map_symbol = ' '
+
+    def kill(self, world):
+        world.board[self.row][self.column] = Tile(self.row, self.column)
+
+    def __str__(self):
+        return f"{self.location}"
+
+
+class Wall(Tile):
+
+    map_symbol = '\u25A0'
+
+    def __init__(self, row, column, length):
+        Tile.__init__(self, row, column, length)
+        self.empty = False
+        self.Map_symbol = Wall.map_symbol
+
+
+class Pit(Tile):
+
+    map_symbol = '\u25CB'
+
+    def __init__(self, row, column, length):
+        Tile.__init__(self, row, column, length)
+        self.empty = False
+        self.spawn_buffer = 2
+        self.Map_symbol = Pit.map_symbol
+
+
+class Treasure(Tile):
+
+    map_symbol = 'T'
+
+    def __init__(self, row, column, length):
+        Tile.__init__(self, row, column, length)
+        self.empty = False
+        self.spawn_buffer = 2
+        self.Map_symbol = Treasure.map_symbol
+
+
+class Monster(Tile):
+
+    map_symbol = '\u25C6'
+
+    def __init__(self, row, column, length):
+        Tile.__init__(self, row, column, length)
+        self.empty = False
+        self.spawn_buffer = 3
+        self.Map_symbol = Monster.map_symbol
+
 
 class Hero(Tile):
+
     map_symbol = 'H'
 
     def __init__(self, World):
@@ -28,7 +87,6 @@ class Hero(Tile):
             "northwest":(-1, -1)
         }
         self.spawn(World)
-
 
     def look(self, World):
         print(f"To your shine your flashlight")
@@ -53,7 +111,6 @@ class Hero(Tile):
                     print(f"To the {direction} you see a massive wall that seems to extend to the heavens")
                 else:
                     print(f"To the {direction} you see nothing of signifigance")
-   
 
     def hear(self, World):
         nothing = True
@@ -71,7 +128,6 @@ class Hero(Tile):
                     nothing = False
         if nothing:
             print(f"You can't seem to hear anything") 
-    
 
     def move(self, direction, World):
         # # check if moving to a valid Tile
@@ -92,7 +148,6 @@ class Hero(Tile):
         else:
             print(f"The way is blocked...")
 
-
     def attack(self, direction, World):
         if World.board[self.row + direction[0]][self.column + direction[1]].map_symbol == Monster.map_symbol:
             # Kill Monster Function
@@ -103,7 +158,6 @@ class Hero(Tile):
 
     def spawn(self, World):
         World.board[self.row][self.column] = Tile(self.row, self.column)
-        
         empty_Tiles = list()
         for row in World.board:
             for square in row:
@@ -132,3 +186,53 @@ class Hero(Tile):
         
         # Update the World with the hero
         World.board[self.row][self.column] = self
+
+
+class Map:
+
+    def __init__(self, map_file):
+        self.grid = list()
+        self.import_map(map_file)
+
+    def import_map(self, map_file):
+        with open(map_file, "r") as new_map:
+            for line in new_map:
+                line = line.replace(" ", "")
+                line = line.replace("\n", "")
+                self.grid.append(list(line))
+
+    def update_map(self, World):
+        for row in World.board:
+            for Tile in row:
+                self.grid[Tile.row][Tile.column] = Tile.map_symbol
+        self.export_map()
+
+    def export_map(self):
+        with open("current_Map.txt", "w", encoding="UTF-8") as updated_map:
+            for line in self.grid:
+                updated_map.write(f"{" ".join(line)}\n")
+
+
+class World:
+
+    def __init__(self, Map):
+        self.board = list()
+        self.create_world(Map)
+
+    # I think i can merge this with my __init__ unless i make it a reset function.
+    def create_world(self, Map):
+        for r, row in enumerate(Map.grid):
+            new_row = list()
+            for c, square in enumerate(row):
+                if square == 'E':
+                    new_row.append(Tile(r, c, len(row)))
+                elif square == 'W':
+                    new_row.append(Wall(r, c, len(row)))
+                elif square == 'P':
+                    new_row.append(Pit(r, c, len(row)))
+                elif square == 'T':             
+                    new_row.append(Treasure(r, c, len(row)))
+                elif square == 'M':
+                    new_row.append(Monster(r, c, len(row)))
+            self.board.append(new_row)
+        Map.update_map(self)

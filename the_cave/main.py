@@ -1,7 +1,4 @@
-from classes.map import Map
-from classes.world import World
-from classes.hero import Hero
-from classes.tile import Tile
+import helpers
 
 
 def main():
@@ -10,12 +7,12 @@ def main():
 
 def start_menu():
 
-    with open("static/title_screen.txt", "r", encoding="utf-8") as screen:
-        for line in screen:
-            print(line, end="")
-        print()
-
     while True:
+        with open("static/title_screen.txt", "r", encoding="utf-8") as screen:
+            for line in screen:
+                print(line, end="")
+            print()
+
         option = input().strip().lower()
 
         if option == "start":
@@ -50,11 +47,11 @@ def control_menu():
 
 def start(file_name):
     # Read cave from input and create a 2D map and the virtual cave.
-    current_map = Map(file_name)
-    the_cave = World(current_map)
+    current_map = helpers.Map(file_name)
+    the_cave = helpers.World(current_map)
 
     # Place the hero and print his location (for sanity, location will go away later)
-    my_hero = Hero(the_cave)
+    my_hero = helpers.Hero(the_cave)
     current_map.update_map(the_cave)
 
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
@@ -90,7 +87,7 @@ def start(file_name):
                 print("Nothing happens.")
 
         elif action[0] == "exit":
-            the_cave.board[my_hero.row][my_hero.column] = Tile(my_hero.row, my_hero.column)
+            the_cave.board[my_hero.row][my_hero.column] = helpers.Tile(my_hero.row, my_hero.column)
             current_map.update_map(the_cave)
             break
         
