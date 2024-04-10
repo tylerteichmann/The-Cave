@@ -1,13 +1,22 @@
+import sys
+import os
 import helpers
 
 
 def main():
     start_menu()
 
+def clear_cli():
+    if sys.platform.startswith("win"):
+        os.system("cls")
+    else:
+        os.system("clear")
 
 def start_menu():
 
     while True:
+        clear_cli()
+
         with open("static/title_screen.txt", "r", encoding="utf-8") as screen:
             for line in screen:
                 print(line, end="")
@@ -16,8 +25,7 @@ def start_menu():
         option = input().strip().lower()
 
         if option == "start":
-            file_name = input("Select Map: ")
-            start(file_name)
+            start()
 
         elif option == "controls":
             control_menu()
@@ -30,13 +38,14 @@ def start_menu():
 
 
 def control_menu():
-
-    with open("static/controls.txt", "r", encoding="utf-8") as screen:
-        for line in screen:
-            print(line, end="")
-        print()
-
     while True:
+        clear_cli()
+
+        with open("static/controls.txt", "r", encoding="utf-8") as screen:
+            for line in screen:
+                print(line, end="")
+            print()
+
         option = input().strip().lower()
 
         if option == "exit":
@@ -45,7 +54,9 @@ def control_menu():
             continue
 
 
-def start(file_name):
+def start():
+    clear_cli()
+    file_name = input("Select Map: ")
     # Read cave from input and create a 2D map and the virtual cave.
     current_map = helpers.Map("static/" + file_name)
     the_cave = helpers.World(current_map)
@@ -53,6 +64,8 @@ def start(file_name):
     # Place the hero and print his location (for sanity, location will go away later)
     my_hero = helpers.Hero(the_cave)
     current_map.update_map(the_cave)
+
+    clear_cli()
 
     print("You awake in a dark cave. You can't seem to remember how you got here, your head hurts and you can feel a pool of water beneath you.")
     turn_counter = 0
