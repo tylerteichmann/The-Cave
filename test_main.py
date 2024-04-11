@@ -1,6 +1,6 @@
 import os
 import unittest
-from .context import main
+from the_cave import main
 
 class test_main(unittest.TestCase):
 
@@ -13,3 +13,6 @@ class test_main(unittest.TestCase):
 
         # Assert
         self.assertTrue()
+
+if __name__ == '__main__':
+    unittest.main()

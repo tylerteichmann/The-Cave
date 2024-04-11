@@ -1,6 +1,6 @@
 import sys
 import os
-import helpers
+from the_cave import helpers
 
 
 def main():
