@@ -58,7 +58,7 @@ def start():
     clear_cli()
     file_name = input("Select Map: ")
     # Read cave from input and create a 2D map and the virtual cave.
-    current_map = helpers.Map("static/" + file_name)
+    current_map = helpers.Map("maps/" + file_name)
     the_cave = helpers.World(current_map)
 
     # Place the hero and print his location (for sanity, location will go away later)
