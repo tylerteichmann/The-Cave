@@ -4,9 +4,11 @@ import helpers
 
 
 def main():
+
     start_menu()
 
 def clear_cli():
+
     if sys.platform.startswith("win"):
         os.system("cls")
     else:
@@ -26,13 +28,10 @@ def start_menu():
 
         if option == "start":
             start()
-
         elif option == "controls":
             control_menu()
-
         elif option == "exit":
             break
-
         else:
             continue
 
@@ -57,6 +56,7 @@ def control_menu():
 def start():
     clear_cli()
     file_name = input("Select Map: ")
+
     # Read cave from input and create a 2D map and the virtual cave.
     current_map = helpers.Map("maps/" + file_name)
     the_cave = helpers.World(current_map)
