@@ -15,7 +15,7 @@ pyinstaller --onefile --add-data helpers.py:. main.py
 
 ## Usage example
 
-Starting the application will priint a title screen to the command line that accepts the following commands:
+Starting the application will print a title screen to the command line that accepts the following commands:
 start - Starts the game.
 controls - Displays the controls for the game.
 
