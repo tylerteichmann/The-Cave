@@ -28,7 +28,7 @@ class Wall(Tile):
     def __init__(self, row, column, length):
         Tile.__init__(self, row, column, length)
         self.empty = False
-        self.Map_symbol = Wall.map_symbol
+        self.map_symbol = Wall.map_symbol
 
 
 class Pit(Tile):
@@ -39,7 +39,7 @@ class Pit(Tile):
         Tile.__init__(self, row, column, length)
         self.empty = False
         self.spawn_buffer = 2
-        self.Map_symbol = Pit.map_symbol
+        self.map_symbol = Pit.map_symbol
 
 
 class Treasure(Tile):
@@ -50,7 +50,7 @@ class Treasure(Tile):
         Tile.__init__(self, row, column, length)
         self.empty = False
         self.spawn_buffer = 2
-        self.Map_symbol = Treasure.map_symbol
+        self.map_symbol = Treasure.map_symbol
 
 
 class Monster(Tile):
@@ -61,7 +61,7 @@ class Monster(Tile):
         Tile.__init__(self, row, column, length)
         self.empty = False
         self.spawn_buffer = 3
-        self.Map_symbol = Monster.map_symbol
+        self.map_symbol = Monster.map_symbol
 
 
 class Hero(Tile):
@@ -158,11 +158,11 @@ class Hero(Tile):
 
     def spawn(self, World):
         World.board[self.row][self.column] = Tile(self.row, self.column)
-        empty_Tiles = list()
+        empty_tiles = list()
         for row in World.board:
             for square in row:
                 if square.empty:
-                    empty_Tiles.append(square.coordinates)
+                    empty_tiles.append(square.coordinates)
 
         # remove Tiles that have a buffer
         for row in World.board:
@@ -170,17 +170,17 @@ class Hero(Tile):
                 if square.spawn_buffer > 0:
                     for i in range(square.spawn_buffer):
                         for j in range(square.spawn_buffer):
-                            if (square.x_coordinate + i, square.y_coordinate + j) in empty_Tiles:
-                                empty_Tiles.remove((square.x_coordinate + i, square.y_coordinate + j))
-                            if (square.x_coordinate + i, square.y_coordinate - j) in empty_Tiles:
-                                empty_Tiles.remove((square.x_coordinate + i, square.y_coordinate - j))
-                            if (square.x_coordinate - i, square.y_coordinate + j) in empty_Tiles:
-                                empty_Tiles.remove((square.x_coordinate - i, square.y_coordinate + j))
-                            if (square.x_coordinate - i, square.y_coordinate - j) in empty_Tiles:
-                                empty_Tiles.remove((square.x_coordinate - i, square.y_coordinate - j))
+                            if (square.x_coordinate + i, square.y_coordinate + j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate + i, square.y_coordinate + j))
+                            if (square.x_coordinate + i, square.y_coordinate - j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate + i, square.y_coordinate - j))
+                            if (square.x_coordinate - i, square.y_coordinate + j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate - i, square.y_coordinate + j))
+                            if (square.x_coordinate - i, square.y_coordinate - j) in empty_tiles:
+                                empty_tiles.remove((square.x_coordinate - i, square.y_coordinate - j))
 
         # Place the hero inside the cave
-        coordinates = random.choice(empty_Tiles)
+        coordinates = random.choice(empty_tiles)
         self.row = 20 - coordinates[1]
         self.column = coordinates[0] - 1
         
@@ -203,8 +203,8 @@ class Map:
 
     def update_map(self, World):
         for row in World.board:
-            for Tile in row:
-                self.grid[Tile.row][Tile.column] = Tile.map_symbol
+            for tile in row:
+                self.grid[tile.row][tile.column] = tile.map_symbol
         self.export_map()
 
     def export_map(self):
