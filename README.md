@@ -23,7 +23,7 @@ Typing _exit_ at anytime will return you to the previous screen.
 
 When the game is started, it will prompt the user to enter a map to play on. Currently the only suppported map is TheCave.txt.
 
-Once the map is loaded, the game will display a prompt and the user has 4 actions
+Once the map is loaded, the game will display a prompt and the user has 4 actions:\n
 move <direction> - Moves the Hero one tile in any direction. Valid inputs are cardinal directions.
 hear - Displays unique text if the Hero is in listening range of the Treasure, Pit, or Monster.
 look - Displays a desctription of the tiles immediately next to the Hero in each of the cardinal and subcardinal directions.
