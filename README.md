@@ -15,25 +15,25 @@ pyinstaller --onefile --add-data helpers.py:. main.py
 
 ## Usage example
 
-Starting the application will print a title screen to the command line that accepts the following commands:
-start - Starts the game.
-controls - Displays the controls for the game.
+Starting the application will print a title screen to the command line that accepts the following commands:  
+start - Starts the game.  
+controls - Displays the controls for the game.  
 
-Typing _exit_ at anytime will return you to the previous screen.
+Typing _exit_ at anytime will return you to the previous screen.  
 
-When the game is started, it will prompt the user to enter a map to play on. Currently the only suppported map is TheCave.txt.
+When the game is started, it will prompt the user to enter a map to play on. Currently the only suppported map is TheCave.txt.  
 
-Once the map is loaded, the game will display a prompt and the user has 4 actions:\n
-move <direction> - Moves the Hero one tile in any direction. Valid inputs are cardinal directions.
-hear - Displays unique text if the Hero is in listening range of the Treasure, Pit, or Monster.
-look - Displays a desctription of the tiles immediately next to the Hero in each of the cardinal and subcardinal directions.
-attack <direction> - The Hero attacks with a spear one tile in any direction. Will kill the Monster if in range. Valid inputs are cardinal directions.
+Once the map is loaded, the game will display a prompt and the user has 4 actions:  
+move <direction> - Moves the Hero one tile in any direction. Valid inputs are cardinal directions.  
+hear - Displays unique text if the Hero is in listening range of the Treasure, Pit, or Monster.  
+look - Displays a desctription of the tiles immediately next to the Hero in each of the cardinal and subcardinal directions.  
+attack <direction> - The Hero attacks with a spear one tile in any direction. Will kill the Monster if in range. Valid inputs are cardinal directions.  
 
-After the Hero takes any action, the current state of the map is written to a file called _current_map.txt_ in the ./maps/ directory. This is not yet meant to be visible to the user, but may support that in future builds. Because the file is Unicode, display may varry based on application. Recommend viewing with monospace fonts.
+After the Hero takes any action, the current state of the map is written to a file called _current_map.txt_ in the ./maps/ directory. This is not yet meant to be visible to the user, but may support that in future builds. Because the file is Unicode, display may varry based on application. Recommend viewing with monospace fonts.  
 
-Once the Hero makes it to the Treasure, the game is won! type exit to return to the start menu.
+Once the Hero makes it to the Treasure, the game is won! type exit to return to the start menu.  
 
-_For more examples and usage, please refer to the documentation._
+_For more examples and usage, please refer to the documentation._  
 
 ## Development setup
 
