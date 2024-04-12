@@ -36,7 +36,7 @@ Describe how to install all development dependencies and how to run an automated
 
 Tyler J. Teichmann – tyler.j.teichmann@gmail.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/yourname/github-link](https://github.com/tylerteichmann/)
 
