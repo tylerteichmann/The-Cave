@@ -1,10 +1,6 @@
 # The Cave (Work in Progress)
 > The Cave is a simple Python adventure game based in the command line interface (CLI).
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
-
 One to two paragraph statement about your product and what it does.
 
 ![](the_cave/static/title/screen.txt)
@@ -40,7 +36,7 @@ Describe how to install all development dependencies and how to run an automated
 
 Tyler J. Teichmann – tyler.j.teichmann@gmail.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/yourname/github-link](https://github.com/tylerteichmann/)
 
