@@ -7,10 +7,10 @@ One to two paragraph statement about your product and what it does.
 
 ## Installation
 
-Windows: Not yet available
+Windows: Not yet available, but project can be compiled using pyinstaller
 
 ```sh
-
+pyinstaller --onefile --add-data helpers.py:. main.py
 ```
 
 ## Usage example
